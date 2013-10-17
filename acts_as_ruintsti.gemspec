@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = ActsAsRuintsti::VERSION
   s.authors     = ["Ru/MuckRu"]
   s.email       = ["ru_shalm@hazimu.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/rutan/acts_as_ruintsti"
   s.summary     = "use the type of integer in the STI(Single Table Inheritance)"
   s.description = "use the type of integer in the STI(Single Table Inheritance)"
 
