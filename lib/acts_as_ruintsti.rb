@@ -23,6 +23,7 @@ module ActsAsRuintsti
     def subclass_from_attrs(attr)
       type_num = attr.with_indifferent_access[inheritance_column]
       if type_num.present?
+        type_num = type_num.to_i if type_num.class == String and type_num =~ /\A\d+\z/
         subclass_name = @@acts_as_ruintsti_params[type_num]
         if subclass_name.present? && subclass_name != self.name
           subclass = subclass_name.safe_constantize

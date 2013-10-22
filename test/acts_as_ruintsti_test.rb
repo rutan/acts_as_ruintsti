@@ -47,13 +47,19 @@ class ActsAsRuintstiTest < ActiveSupport::TestCase
     assert_equal Block.new(:type => 1).class, RedBlock
   end
 
-  test "when create block type=2, created BlueBlock" do
-    assert_equal Block.new(:type => 2).class, BlueBlock
+  test "when create block type='2', created BlueBlock" do
+    assert_equal Block.new(:type => '2').class, BlueBlock
   end
 
   test "when create block type=3, raise SubclassNotFound" do
     assert_raise ActiveRecord::SubclassNotFound do
       Block.new(:type => 3)
+    end
+  end
+
+  test "when create block type='hoge', raise SubclassNotFound" do
+    assert_raise ActiveRecord::SubclassNotFound do
+      Block.new(:type => 'hoge')
     end
   end
 end
