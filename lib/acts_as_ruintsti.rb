@@ -8,23 +8,26 @@ module ActsAsRuintsti
     end
   end
   module ClassMethods
-    @@acts_as_ruintsti_params = {}
+    def acts_as_ruintsti_params
+      @@acts_as_ruintsti_params[table_name]
+    end
     def acts_as_ruintsti_params=(params)
-      @@acts_as_ruintsti_params = params
+      @@acts_as_ruintsti_params ||= {}
+      @@acts_as_ruintsti_params[table_name] = params
     end
     def sti_name
-      n = @@acts_as_ruintsti_params.values.index(self.name.to_s)
-      n ? @@acts_as_ruintsti_params.keys[n] : 0
+      n = acts_as_ruintsti_params.values.index(self.name.to_s)
+      n ? acts_as_ruintsti_params.keys[n] : 0
     end
     def find_sti_class(type_name)
-      class_name = @@acts_as_ruintsti_params[type_name.to_i]
+      class_name = acts_as_ruintsti_params[type_name.to_i]
       class_name ? class_name.constantize : self
     end
     def subclass_from_attrs(attr)
       type_num = attr.with_indifferent_access[inheritance_column]
       if type_num.present?
         type_num = type_num.to_i if type_num.class == String and type_num =~ /\A\d+\z/
-        subclass_name = @@acts_as_ruintsti_params[type_num]
+        subclass_name = acts_as_ruintsti_params[type_num]
         if subclass_name.present? && subclass_name != self.name
           subclass = subclass_name.safe_constantize
           unless descendants.include?(subclass)

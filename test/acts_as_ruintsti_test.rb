@@ -1,6 +1,15 @@
 # coding: utf-8
 require 'test_helper'
 
+class Box < ActiveRecord::Base
+  acts_as_ruintsti({
+    1 => 'WhiteBox',
+    2 => 'BlackBox',
+  })
+end
+class WhiteBox < Box; end
+class BlackBox < Box; end
+
 class Block < ActiveRecord::Base
   acts_as_ruintsti({
     1 => 'RedBlock',
@@ -9,6 +18,7 @@ class Block < ActiveRecord::Base
 end
 class RedBlock < Block; end
 class BlueBlock < Block; end
+
 
 class ActsAsRuintstiTest < ActiveSupport::TestCase
   def setup
@@ -61,5 +71,9 @@ class ActsAsRuintstiTest < ActiveSupport::TestCase
     assert_raise ActiveRecord::SubclassNotFound do
       Block.new(:type => 'hoge')
     end
+  end
+
+  test "acts_as_ruintsti_params is different between Block and Box" do
+    assert_not_equal Block.acts_as_ruintsti_params, Box.acts_as_ruintsti_params
   end
 end
